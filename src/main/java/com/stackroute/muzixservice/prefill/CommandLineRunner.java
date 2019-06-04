@@ -8,7 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SeedData1 implements CommandLineRunner {
+public class CommandLineRunner implements org.springframework.boot.CommandLineRunner {
 
 
     @Value("${track2.id}")

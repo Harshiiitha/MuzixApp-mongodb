@@ -5,11 +5,17 @@ import com.stackroute.muzixservice.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzixservice.exceptions.TrackNotFoundException;
 import com.stackroute.muzixservice.repository.MuzixRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-
+@Primary
 @Service
+@CacheConfig(cacheNames = {"track"})
 public class MuzixServiceImpl implements MuzixService{
 
     @Autowired
@@ -17,6 +23,17 @@ public class MuzixServiceImpl implements MuzixService{
 
     public MuzixServiceImpl(MuzixRepository muzixRepository) {
         this.muzixRepository = muzixRepository;
+    }
+
+    public void simulateDelay()
+    {
+        try {
+            Thread.sleep(3000);
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -34,13 +51,15 @@ public class MuzixServiceImpl implements MuzixService{
         return savedTrack;
     }
 
-
+    @Cacheable(value = "track")
     @Override
     public List<Track> getAllTracks() {
 
+        simulateDelay();
         return muzixRepository.findAll();
     }
 
+    @CacheEvict(allEntries = true)
     @Override
     public Track updateTrackComments(String id,String comment) throws TrackNotFoundException {
         Track track=null;

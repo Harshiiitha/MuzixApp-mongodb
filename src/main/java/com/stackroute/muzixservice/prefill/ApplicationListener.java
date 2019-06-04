@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class SeedData implements ApplicationListener<ContextRefreshedEvent>  {
+public class ApplicationListener implements org.springframework.context.ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private Environment environment;
