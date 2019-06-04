@@ -24,5 +24,4 @@
 ->Added Lombok plugin
 ->Provided a second implementation of MuzixService.
    Named it MuzixServiceConsoleImpl and
-   used @Primary and
-        @Qualifier annotations for the required implementation.
+   used @Primary and @Qualifier annotations for the required implementation.
