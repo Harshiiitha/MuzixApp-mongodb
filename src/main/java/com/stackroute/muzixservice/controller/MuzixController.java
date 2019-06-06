@@ -27,8 +27,8 @@ public class MuzixController {
 
         ResponseEntity responseEntity;
         Track savedTrack=null;
-        savedTrack=muzixService.saveTrack(track);
-        responseEntity=new ResponseEntity<Track>(savedTrack, HttpStatus.CREATED);
+        savedTrack = muzixService.saveTrack(track);
+        responseEntity = new ResponseEntity<Track>(savedTrack, HttpStatus.CREATED);
         return responseEntity;
     }
 
@@ -47,7 +47,7 @@ public class MuzixController {
     }
 
     @DeleteMapping("track/{id}")
-    public ResponseEntity<?> getTrackAfterUpdatingComments(@PathVariable String id) throws TrackNotFoundException
+    public ResponseEntity<?> getTrackAfterDeleting(@PathVariable String id) throws TrackNotFoundException
     {
         ResponseEntity responseEntity;
         responseEntity=new ResponseEntity<Track>(muzixService.deleteTrack(id), HttpStatus.OK);

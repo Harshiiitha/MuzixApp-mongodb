@@ -12,23 +12,26 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Primary
 @Service
-@CacheConfig(cacheNames = {"track"})
+@CacheConfig(cacheNames = "track")
 public class MuzixServiceImpl implements MuzixService{
 
     @Autowired
     private MuzixRepository muzixRepository;
+    private Track track;
 
     public MuzixServiceImpl(MuzixRepository muzixRepository) {
         this.muzixRepository = muzixRepository;
     }
 
+
     public void simulateDelay()
     {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         }
         catch(InterruptedException e)
         {
@@ -36,7 +39,7 @@ public class MuzixServiceImpl implements MuzixService{
         }
     }
 
-
+     @CacheEvict(allEntries = true)
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistsException {
 
@@ -62,8 +65,9 @@ public class MuzixServiceImpl implements MuzixService{
     @CacheEvict(allEntries = true)
     @Override
     public Track updateTrackComments(String id,String comment) throws TrackNotFoundException {
-        Track track=null;
-        if(muzixRepository.existsById(id))
+
+        Optional optional=muzixRepository.findById(id);
+        if(optional.isPresent())
         {
             track=muzixRepository.findById(id).get();
             track.setTrackComments(comment);
@@ -76,11 +80,12 @@ public class MuzixServiceImpl implements MuzixService{
         return track;
     }
 
-
+    @CacheEvict(allEntries = true)
     @Override
     public Track deleteTrack(String id) throws TrackNotFoundException{
         Track track=null;
-        if(muzixRepository.existsById(id))
+        Optional optional=muzixRepository.findById(id);
+        if(optional.isPresent())
         {
             track=muzixRepository.findById(id).get();
             muzixRepository.deleteById(id);

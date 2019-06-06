@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class ApplicationListener implements org.springframework.context.ApplicationListener<ContextRefreshedEvent> {
+public class ApplicationListenerDemo implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private Environment environment;

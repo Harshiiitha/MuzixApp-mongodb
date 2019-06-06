@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionController {
 
+
     @ExceptionHandler(value= TrackAlreadyExistsException.class)
     public ResponseEntity<String> exception(TrackAlreadyExistsException exception)
     {
+
         return new ResponseEntity<String>(exception.getMessage(), HttpStatus.CONFLICT);
     }
-
     @ExceptionHandler(value= TrackNotFoundException.class)
     public ResponseEntity<String> exception1(TrackNotFoundException exception1)
     {

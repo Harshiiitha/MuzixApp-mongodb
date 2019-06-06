@@ -8,7 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommandLineRunner implements org.springframework.boot.CommandLineRunner {
+public class CommandLineRunnerDemo implements CommandLineRunner {
 
 
     @Value("${track2.id}")

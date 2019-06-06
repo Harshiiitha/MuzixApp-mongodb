@@ -16,12 +16,14 @@ import java.util.Optional;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class MuzixRepositoryTest {
+
     @Autowired
     private MuzixRepository muzixRepository;
     private Track track;
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
         track = new Track();
         track.setTrackId("2");
         track.setTrackName("Album1");
@@ -29,14 +31,17 @@ public class MuzixRepositoryTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
 
         muzixRepository.deleteAll();
+        track=null;
     }
 
 
     @Test
-    public void testSaveTrack() {
+    public void testSaveTrack()
+    {
         muzixRepository.save(track);
         Track fetchTrack = muzixRepository.findById(track.getTrackId()).get();
         Assert.assertEquals("2", fetchTrack.getTrackId());
@@ -44,7 +49,7 @@ public class MuzixRepositoryTest {
     }
 
     @Test
-    public void testSaveUserFailure() {
+    public void testSaveTrackFailure() {
         Track testtrack = new Track("3", "Album3", "Old songs");
         muzixRepository.save(testtrack);
         Track fetchTrack = muzixRepository.findById(testtrack.getTrackId()).get();
@@ -73,11 +78,30 @@ public class MuzixRepositoryTest {
     }
 
     @Test
+    public void testDeleteTrackFailure()
+    {
+        Track track1=new Track("8","Album8","long drive");
+        muzixRepository.save(track1);
+        muzixRepository.deleteById(track1.getTrackId());
+        Optional optional=muzixRepository.findById(track.getTrackId());
+        boolean value=optional.isPresent();
+        Assert.assertNotEquals(Optional.empty(),value);
+    }
+
+    @Test
     public void testTrackByName()
     {
         Track track=new Track("8","Album8","Night time");
         muzixRepository.save(track);
         Track fetchTrack=muzixRepository.findTrackByName("Album8");
         Assert.assertEquals("8",fetchTrack.getTrackId());
+    }
+    @Test
+    public void testTrackByNameFailure()
+    {
+        Track track=new Track("8","Album8","Night time");
+        muzixRepository.save(track);
+        Track fetchTrack=muzixRepository.findTrackByName("Album8");
+        Assert.assertNotEquals("9",fetchTrack.getTrackId());
     }
 }
