@@ -88,7 +88,7 @@ public class MuzixRepositoryTest {
         Assert.assertNotEquals(Optional.empty(),value);
     }
 
-    @Test
+  /*  @Test
     public void testTrackByName()
     {
         Track track=new Track("8","Album8","Night time");
@@ -103,5 +103,5 @@ public class MuzixRepositoryTest {
         muzixRepository.save(track);
         Track fetchTrack=muzixRepository.findTrackByName("Album8");
         Assert.assertNotEquals("9",fetchTrack.getTrackId());
-    }
+    }*/
 }

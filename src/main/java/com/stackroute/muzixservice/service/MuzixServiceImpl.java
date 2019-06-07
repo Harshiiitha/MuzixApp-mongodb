@@ -5,64 +5,46 @@ import com.stackroute.muzixservice.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzixservice.exceptions.TrackNotFoundException;
 import com.stackroute.muzixservice.repository.MuzixRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Primary
 @Service
-@CacheConfig(cacheNames = "track")
 public class MuzixServiceImpl implements MuzixService{
 
     @Autowired
     private MuzixRepository muzixRepository;
     private Track track;
+    @Autowired
+    private Environment environment;
 
     public MuzixServiceImpl(MuzixRepository muzixRepository) {
         this.muzixRepository = muzixRepository;
     }
 
-
-    public void simulateDelay()
-    {
-        try {
-            Thread.sleep(1000);
-        }
-        catch(InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-     @CacheEvict(allEntries = true)
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistsException {
 
         if (muzixRepository.existsById(track.getTrackId())) {
-            throw new TrackAlreadyExistsException("Track already exists");
+            throw new TrackAlreadyExistsException(environment.getProperty("trackalreadyexistsexception.message"));
         }
         Track savedTrack = muzixRepository.save(track);
         if(savedTrack==null)
         {
-            throw new TrackAlreadyExistsException("Track already exists");
+            throw new TrackAlreadyExistsException("trackalreadyexistsexception.message");
         }
         return savedTrack;
     }
 
-    @Cacheable(value = "track")
     @Override
     public List<Track> getAllTracks() {
+            return muzixRepository.findAll();
 
-        simulateDelay();
-        return muzixRepository.findAll();
     }
 
-    @CacheEvict(allEntries = true)
     @Override
     public Track updateTrackComments(String id,String comment) throws TrackNotFoundException {
 
@@ -75,12 +57,11 @@ public class MuzixServiceImpl implements MuzixService{
         }
         else
         {
-            throw new TrackNotFoundException("Track does not exist");
+            throw new TrackNotFoundException(environment.getProperty("tracknotfoundexception.message"));
         }
         return track;
     }
 
-    @CacheEvict(allEntries = true)
     @Override
     public Track deleteTrack(String id) throws TrackNotFoundException{
         Track track=null;
@@ -92,19 +73,8 @@ public class MuzixServiceImpl implements MuzixService{
         }
         else
         {
-            throw new TrackNotFoundException("Track does not exist");
+            throw new TrackNotFoundException(environment.getProperty("trackalreadyexistsexception.message"));
         }
       return track;
-    }
-    @Override
-    public Track findTrackByName(String name)throws TrackNotFoundException
-    {
-        Track track=null;
-        track=muzixRepository.findTrackByName(name);
-        if(track==null)
-        {
-            throw new TrackNotFoundException("Track does not exist");
-        }
-        return track;
     }
 }

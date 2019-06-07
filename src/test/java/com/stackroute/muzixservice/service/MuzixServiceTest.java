@@ -134,7 +134,7 @@ public class MuzixServiceTest {
         verify(muzixRepository,times(1)).deleteById(track.getTrackId());
     }
 
-    @Test
+   /* @Test
     public void findTrackByName() throws  TrackNotFoundException{
 
         when(muzixRepository.findTrackByName(track.getTrackName())).thenReturn(track);
@@ -153,6 +153,6 @@ public class MuzixServiceTest {
 
         verify(muzixRepository,times(1)).findTrackByName(track.getTrackName());
 
-    }
+    }*/
 
 }

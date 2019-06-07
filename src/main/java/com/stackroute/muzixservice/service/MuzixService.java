@@ -16,5 +16,4 @@ public interface MuzixService {
 
     public Track deleteTrack(String id) throws TrackNotFoundException;
 
-    public Track findTrackByName(String name)throws  TrackNotFoundException;
 }

@@ -33,9 +33,9 @@ public class MuzixController {
     }
 
     @GetMapping("tracks")
-    public ResponseEntity<?> getAllTracks()
+    public ResponseEntity<?> getAllTracks()throws Exception
     {
-        return  new ResponseEntity<List<Track>>(muzixService.getAllTracks(),HttpStatus.OK);
+            return new ResponseEntity<List>(muzixService.getAllTracks(), HttpStatus.OK);
     }
 
     @PutMapping("track/{id}/{comment}")
@@ -54,12 +54,5 @@ public class MuzixController {
         return responseEntity;
     }
 
-    @GetMapping("track/{name}")
-    public ResponseEntity<?> getTrackByName(@PathVariable ("name") String name)throws TrackNotFoundException
-    {
-        ResponseEntity responseEntity;
-        responseEntity=new ResponseEntity<Track>(muzixService.findTrackByName(name),HttpStatus.OK);
-        return responseEntity;
 
-    }
 }

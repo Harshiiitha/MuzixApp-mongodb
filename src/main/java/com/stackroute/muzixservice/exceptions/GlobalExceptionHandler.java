@@ -1,4 +1,4 @@
-package com.stackroute.muzixservice.controller;
+package com.stackroute.muzixservice.exceptions;
 
 import com.stackroute.muzixservice.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzixservice.exceptions.TrackNotFoundException;
@@ -8,18 +8,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionController {
+public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(value= TrackAlreadyExistsException.class)
-    public ResponseEntity<String> exception(TrackAlreadyExistsException exception)
+    public ResponseEntity<String> returnTrackAlreadyExistsException(TrackAlreadyExistsException trackAlreadyExistsException)
     {
 
-        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.CONFLICT);
+        return new ResponseEntity<String>(trackAlreadyExistsException.getMessage(), HttpStatus.CONFLICT);
     }
     @ExceptionHandler(value= TrackNotFoundException.class)
-    public ResponseEntity<String> exception1(TrackNotFoundException exception1)
+    public ResponseEntity<String> returnTrackNotFoundException(TrackNotFoundException trackNotFoundException)
     {
-        return new ResponseEntity<String>(exception1.getMessage(), HttpStatus.CONFLICT);
+        return new ResponseEntity<String>(trackNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
+

@@ -32,7 +32,6 @@ public class MuzixServiceConsoleImpl implements MuzixService {
         {
             throw new TrackAlreadyExistsException("Track already exists");
         }
-        System.out.println(savedTrack);
         return savedTrack;
     }
 
@@ -56,7 +55,6 @@ public class MuzixServiceConsoleImpl implements MuzixService {
         {
             throw new TrackNotFoundException("Track does not exist");
         }
-        System.out.println(track);
         return track;
     }
 
@@ -70,18 +68,6 @@ public class MuzixServiceConsoleImpl implements MuzixService {
             muzixRepository.deleteById(id);
         }
         else
-        {
-            throw new TrackNotFoundException("Track does not exist");
-        }
-        System.out.println(track);
-        return track;
-    }
-    @Override
-    public Track findTrackByName(String name)throws TrackNotFoundException
-    {
-        Track track=null;
-        track=muzixRepository.findTrackByName(name);
-        if(track==null)
         {
             throw new TrackNotFoundException("Track does not exist");
         }
